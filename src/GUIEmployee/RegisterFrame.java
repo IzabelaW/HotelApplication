@@ -1,7 +1,6 @@
-package GUI;
+package GUIEmployee;
 
 import DAO.Connector;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -68,7 +67,7 @@ public class RegisterFrame extends JDialog {
                             connector.addUser(login,password,name,surname,PESEL,IDNumber,type);
                             dispose(); //nie działa
                         } catch (SQLException e1) {
-                            JOptionPane.showMessageDialog(null,"Konto o wprowadzonych danych już istnieje!");
+                            JOptionPane.showMessageDialog(null,"Konto o wprowadzonych danych już istnieje: " + e1);
                         }
                     }
                 }

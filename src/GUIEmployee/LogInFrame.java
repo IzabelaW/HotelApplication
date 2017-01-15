@@ -1,6 +1,7 @@
-package GUI;
+package GUIEmployee;
 
 import DAO.Connector;
+import GUIGuest.GuestWelcomeFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,7 +30,7 @@ public class LogInFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 JDialog registerFrame = new JDialog(frame,"HotelApp");
                 registerFrame.setContentPane(new RegisterFrame(connector).panel);
-                registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                registerFrame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 registerFrame.pack();
                 registerFrame.setVisible(true);
             }
@@ -50,9 +51,18 @@ public class LogInFrame extends JFrame{
                     JOptionPane.showMessageDialog(null, "Niepoprawny login lub hasło!");
 
                 } else if (type.equals("gość")) {
-
+                    GuestWelcomeFrame guestWelcomeFrame = new GuestWelcomeFrame(connector);
                 } else if (type.equals("pracownik")){
-
+                    JFrame employeeFrame = new JFrame("HotelApp");
+                    try {
+                        employeeFrame.setContentPane(new EmployeeFrame(connector).panel);
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                    employeeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    employeeFrame.pack();
+                    employeeFrame.setVisible(true);
+                    dispose();
                 }
             }
         });
