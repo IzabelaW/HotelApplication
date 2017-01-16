@@ -12,7 +12,7 @@ public class Booking {
     private String standard;
     private int numberOfPeople;
     private int numberOfBeds;
-    private String ifPossibilityOfCancellation;
+    private Boolean ifPossibilityOfCancellation;
     private int amountForRoom;
     private int amountForServices;
     private String  mark;
@@ -21,7 +21,7 @@ public class Booking {
 
 
     public Booking(int bookingID, String bookingDate, String  startDate, String endDate, int roomNr, String standard, int numberOfPeople,
-                   int numberOfBeds, String ifPossibilityOfCancellation, int amountForRoom, int amountForServices, String mark){
+                   int numberOfBeds, Boolean ifPossibilityOfCancellation, int amountForRoom, int amountForServices, String mark){
         this.bookingID = bookingID;
         this.bookingDate = bookingDate;
         this.startDate = startDate;
@@ -61,7 +61,7 @@ public class Booking {
     public int getNumberOfBeds(){
         return numberOfBeds;
     }
-    public String getIfPossibilityOfCancellation(){
+    public Boolean getIfPossibilityOfCancellation(){
         return ifPossibilityOfCancellation;
     }
     public int getAmountForRoom(){

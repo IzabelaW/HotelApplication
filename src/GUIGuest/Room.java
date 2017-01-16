@@ -9,14 +9,14 @@ public class Room {
     int numberOfPeople;
     int numberOfBeds;
     int price;
-    String ifBalcony;
-    String ifSeaView;
+    Boolean ifBalcony;
+    Boolean ifSeaView;
     double guestRating;
     private int numberOfReservations;
 
 
 
-    public Room(int roomNr, String standard, int numberOfPeople, int numberOfBeds, int price, String ifBalcony, String ifSeaView,
+    public Room(int roomNr, String standard, int numberOfPeople, int numberOfBeds, int price, Boolean ifBalcony, Boolean ifSeaView,
                 double guestRating, int numberOfReservations){
         this.roomNr = roomNr;
         this.standard = standard;
@@ -46,11 +46,11 @@ public class Room {
         return numberOfBeds;
     }
 
-    public String getIfBalcony(){
+    public Boolean getIfBalcony(){
         return ifBalcony;
     }
 
-    public String getIfSeaView(){
+    public Boolean getIfSeaView(){
         return ifSeaView;
     }
 
