@@ -33,12 +33,15 @@ public class EditReservationDialog extends JDialog {
         this.tmpReservation = tmpReservation;
         this.ID = ID;
 
-        setTitle("Edycja rezerwacji");
         populateGui(tmpReservation);
 
+        setTitle("HotelApp");
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(editButton);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(525,100,450,250);
 
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -48,18 +51,28 @@ public class EditReservationDialog extends JDialog {
                 String end = endTextField.getText();
                 Boolean ifCancelPossible = false;
                 String payment = paymentComboBox.getSelectedItem().toString();
+                Reservation reservation = null;
+
                 if(ifCancelPossibleCheckBox.isSelected()){
                     ifCancelPossible = true;
                 }
                 if(!login.equals("") && !numberOfRoom.equals("") && !beginning.equals("") && !end.equals("")){
-                    Reservation reservation = tmpReservation;
-                    reservation.setReservationID(ID);
-                    reservation.setLogin(login);
-                    reservation.setNumberOfRoom(Integer.parseInt(numberOfRoom));
-                    reservation.setBeginning(Date.valueOf(beginning));
-                    reservation.setEnd(Date.valueOf(end));
-                    reservation.setIfCancelPossible(ifCancelPossible);
-                    reservation.setPayment(payment);
+                    try {
+                        reservation = tmpReservation;
+                        reservation.setReservationID(ID);
+                        reservation.setLogin(login);
+                        reservation.setNumberOfRoom(Integer.parseInt(numberOfRoom));
+                        reservation.setBeginning(Date.valueOf(beginning));
+                        reservation.setEnd(Date.valueOf(end));
+                        reservation.setIfCancelPossible(ifCancelPossible);
+                        reservation.setPayment(payment);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(EditReservationDialog.this,"Niepoprawnyh format wpisanych danych!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    } catch (IllegalArgumentException exep) {
+                        JOptionPane.showMessageDialog(EditReservationDialog.this,"Niepoprawnyh format wpisanych danych!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
 
                     try{
                         connector.updateReservation(reservation);
@@ -68,7 +81,7 @@ public class EditReservationDialog extends JDialog {
                         presentReservationsFrame.refresh();
                         JOptionPane.showMessageDialog(presentReservationsFrame, "Rezerwacja została pomyślnie zapisana.", "Rezerwacja zapisana", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(presentReservationsFrame, "Błąd w trakcie zapisywania rezerwacji: " + ex.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(EditReservationDialog.this, "Błąd w trakcie zapisywania rezerwacji: " + ex.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Wypełnij wszystkie pola!");

@@ -25,6 +25,11 @@ public class PresentReservationsFrame extends JFrame {
 
     public PresentReservationsFrame(Connector connector) throws SQLException {
         this.connector = connector;
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(200,100,1000,600);
+        setTitle("HotelApp");
 
         removeButton.addActionListener(new ActionListener() {
             @Override

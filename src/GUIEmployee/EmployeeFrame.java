@@ -25,6 +25,8 @@ public class EmployeeFrame extends JFrame{
     private JTable reservationsTable;
     private JPanel ratingsPanel;
     private JPanel reservationsPanel;
+    private JButton refreshButton;
+    private JButton obliczDochódButton;
     private JMenuItem rooms;
     private JMenuItem typesOfRooms;
     private JMenuItem standards;
@@ -35,12 +37,17 @@ public class EmployeeFrame extends JFrame{
     private JMenuItem allGuests;
     private JMenuItem presentReservations;
     private JMenuItem allReservations;
-    private JMenuItem addReservation;
     private JScrollPane ratingsScrollPane;
     private JScrollPane reservationsScrollPane;
 
     public EmployeeFrame(Connector connector) throws SQLException {
         this.connector = connector;
+
+        setContentPane(panel);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        pack();
+        setBounds(0,100,1600,600);
+        setTitle("HotelApp");
 
         rooms = new JMenuItem("Pokoje");
         standards = new JMenuItem("Standardy");
@@ -48,18 +55,16 @@ public class EmployeeFrame extends JFrame{
         services = new JMenuItem("Usługi");
         searchGuest = new JMenuItem("Gościa");
         searchRoom = new JMenuItem("Pokój");
-        presentGuests = new JMenuItem("Obecni");
+        presentGuests = new JMenuItem("Aktualni");
         allGuests = new JMenuItem("Wszyscy");
-        presentReservations = new JMenuItem("Obecne");
+        presentReservations = new JMenuItem("Aktualne");
         allReservations = new JMenuItem("Wszystkie");
-        addReservation = new JMenuItem("Dodaj");
 
         guests.add(presentGuests);
         guests.add(allGuests);
 
         reservations.add(presentReservations);
         reservations.add(allReservations);
-        reservations.add(addReservation);
 
         edit.add(rooms);
         edit.add(typesOfRooms);
@@ -72,29 +77,26 @@ public class EmployeeFrame extends JFrame{
         rooms.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame roomsEditFrame = new JFrame("HotelApp");
+                RoomsEditFrame roomsEditFrame = null;
                 try {
-                    roomsEditFrame.setContentPane(new RoomsEditFrame(connector).panel);
+                    roomsEditFrame = new RoomsEditFrame(connector);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                roomsEditFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                roomsEditFrame.pack();
                 roomsEditFrame.setVisible(true);
+
             }
         });
 
         typesOfRooms.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame typesOfRoomsEditFrame = new JFrame("HotelApp");
+                TypesOfRoomsEditFrame typesOfRoomsEditFrame = null;
                 try {
-                    typesOfRoomsEditFrame.setContentPane(new TypesOfRoomsEditFrame(connector).panel);
+                    typesOfRoomsEditFrame = new TypesOfRoomsEditFrame(connector);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                typesOfRoomsEditFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                typesOfRoomsEditFrame.pack();
                 typesOfRoomsEditFrame.setVisible(true);
             }
         });
@@ -102,14 +104,12 @@ public class EmployeeFrame extends JFrame{
         standards.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame standardsEditFrame = new JFrame("HotelApp");
+                StandardsEditFrame standardsEditFrame = null;
                 try {
-                    standardsEditFrame.setContentPane(new StandardsEditFrame(connector).panel);
+                    standardsEditFrame = new StandardsEditFrame(connector);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                standardsEditFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                standardsEditFrame.pack();
                 standardsEditFrame.setVisible(true);
             }
         });
@@ -117,14 +117,12 @@ public class EmployeeFrame extends JFrame{
         services.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame servicesEditFrame = new JFrame("HotelApp");
+                ServicesEditFrame servicesEditFrame = null;
                 try {
-                    servicesEditFrame.setContentPane(new ServicesEditFrame(connector).panel);
+                    servicesEditFrame = new ServicesEditFrame(connector);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                servicesEditFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                servicesEditFrame.pack();
                 servicesEditFrame.setVisible(true);
             }
         });
@@ -132,14 +130,12 @@ public class EmployeeFrame extends JFrame{
         presentGuests.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame presentGuestFrame = new JFrame("HotelApp");
+                PresentGuestsFrame presentGuestFrame = null;
                 try {
-                    presentGuestFrame.setContentPane(new PresentGuestsFrame(connector).panel);
+                    presentGuestFrame = new PresentGuestsFrame(connector);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                presentGuestFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                presentGuestFrame.pack();
                 presentGuestFrame.setVisible(true);
             }
         });
@@ -147,14 +143,12 @@ public class EmployeeFrame extends JFrame{
         allGuests.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame allGuestsFrame = new JFrame("HotelApp");
+                AllGuestsFrame allGuestsFrame = null;
                 try {
-                    allGuestsFrame.setContentPane(new AllGuestsFrame(connector).panel);
+                    allGuestsFrame = new AllGuestsFrame(connector);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                allGuestsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                allGuestsFrame.pack();
                 allGuestsFrame.setVisible(true);
             }
         });
@@ -162,14 +156,12 @@ public class EmployeeFrame extends JFrame{
         presentReservations.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame presentReservationsFrame = new JFrame("HotelApp");
+                PresentReservationsFrame presentReservationsFrame = null;
                 try {
-                    presentReservationsFrame.setContentPane(new PresentReservationsFrame(connector).panel);
+                    presentReservationsFrame = new PresentReservationsFrame(connector);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                presentReservationsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                presentReservationsFrame.pack();
                 presentReservationsFrame.setVisible(true);
             }
         });
@@ -177,14 +169,12 @@ public class EmployeeFrame extends JFrame{
         allReservations.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame allReservationsFrame = new JFrame("HotelApp");
+                AllReservationsFrame allReservationsFrame = null;
                 try {
-                    allReservationsFrame.setContentPane(new AllReservationsFrame(connector).panel);
+                    allReservationsFrame = new AllReservationsFrame(connector);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-                allReservationsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                allReservationsFrame.pack();
                 allReservationsFrame.setVisible(true);
             }
         });
@@ -192,22 +182,16 @@ public class EmployeeFrame extends JFrame{
         searchRoom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog searchForRoomDialog = new JDialog(frame,"HotelApp");
-                searchForRoomDialog.setContentPane(new SearchForRoomFrame(connector).panel);
-                searchForRoomDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                searchForRoomDialog.pack();
-                searchForRoomDialog.setVisible(true);
+                SearchForRoomFrame searchForRoomFrame = new SearchForRoomFrame(connector);
+                searchForRoomFrame.setVisible(true);
             }
         });
 
         searchGuest.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog searchForGuestDialog = new JDialog(frame,"HotelApp");
-                searchForGuestDialog.setContentPane(new SearchForGuestFrame(connector).panel);
-                searchForGuestDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                searchForGuestDialog.pack();
-                searchForGuestDialog.setVisible(true);
+                SearchForGuestFrame searchForGuestFrame = new SearchForGuestFrame(connector);
+                searchForGuestFrame.setVisible(true);
             }
         });
 
@@ -231,8 +215,34 @@ public class EmployeeFrame extends JFrame{
         reservationsScrollPane.setViewportView(reservationsTable);
 
 
-
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                refresh();
+            }
+        });
+        obliczDochódButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CountIncomeDialog countIncomeDialog = new CountIncomeDialog(connector);
+                countIncomeDialog.setVisible(true);
+            }
+        });
     }
 
+    private void refresh() {
+
+        try {
+            List<Rating> ratings = connector.getAllRatings();
+
+            // create the model and update the "table"
+            RatingsTableModel model = new RatingsTableModel(ratings);
+
+            ratingsTable.setModel(model);
+        } catch (Exception exc) {
+            JOptionPane.showMessageDialog(this, "Error: " + exc, "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 }

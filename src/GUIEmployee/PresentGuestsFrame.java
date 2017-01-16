@@ -16,7 +16,6 @@ public class PresentGuestsFrame extends JFrame {
     public JPanel panel;
     private JFrame frame = this;
     private JButton addButton;
-    private JButton removeButton;
     private JButton addServiceButton;
     private JButton editButton;
     private JLabel headerLabel;
@@ -29,6 +28,11 @@ public class PresentGuestsFrame extends JFrame {
     public PresentGuestsFrame(Connector connector) throws SQLException {
 
         this.connector = connector;
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(500,100,600,600);
+        setTitle("HotelApp");
 
         addServiceButton.addActionListener(new ActionListener() {
             @Override
@@ -38,33 +42,6 @@ public class PresentGuestsFrame extends JFrame {
                 serviceForGuestFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 serviceForGuestFrame.pack();
                 serviceForGuestFrame.setVisible(true);
-            }
-        });
-
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int row = guestsTable.getSelectedRow();
-                if (row < 0) {
-                    JOptionPane.showMessageDialog(null, "Wybierz gościa, którego chcesz usunąć.", "Błąd", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                int response = JOptionPane.showConfirmDialog(null, "Czy na pewno chcesz usunąć tego gościa?", "Potwierdzenie", JOptionPane.YES_NO_OPTION);
-
-                if (response != JOptionPane.YES_OPTION) {
-                    return;
-                }
-
-                try {
-                    connector.deleteGuest(guestsTable.getValueAt(guestsTable.getSelectedRow(), 0).toString());
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-
-                refresh();
-
-                JOptionPane.showMessageDialog(null, "Gość został pomyślnie usunięty.", "Gość usunięty", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 

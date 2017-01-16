@@ -41,7 +41,7 @@
             <properties>
               <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
-              <text value="OBECNE REZERWACJE"/>
+              <text value="AKTUALNE REZERWACJE"/>
             </properties>
           </component>
           <grid id="cc5f7" layout-manager="GridLayoutManager" row-count="2" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

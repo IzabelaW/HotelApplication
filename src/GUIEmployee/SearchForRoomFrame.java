@@ -22,20 +22,35 @@ public class SearchForRoomFrame extends JDialog{
 
     public SearchForRoomFrame (Connector connector) {
         this.connector = connector;
+        setTitle("HotelApp");
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(580,300,300,160);
+        textArea.setEditable(false);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String numberOfRoom = null;
-                try {
-                    numberOfRoom = connector.getNumberOfRoom(PESELTextField.getText());
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+                if(!PESELTextField.getText().equals("")) {
+                    try {
+                        numberOfRoom = connector.getNumberOfRoom(Long.valueOf(PESELTextField.getText()));
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    } catch (NumberFormatException ex){
+                        JOptionPane.showMessageDialog(SearchForRoomFrame.this, "Niepoprawny format wpisanych danych!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if (!numberOfRoom.equals("0")) {
+                        textArea.setText("Numer pokoju: " + numberOfRoom);
+                    } else
+                        JOptionPane.showMessageDialog(SearchForRoomFrame.this, "Obecnie nie ma w hotelu gościa o podanym peselu.");
+                        return;
+                } else {
+                    JOptionPane.showMessageDialog(SearchForRoomFrame.this, "Wpisz PESEL gościa!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-                if(!numberOfRoom.equals("0")) {
-                    textArea.setText("Numer pokoju: " + numberOfRoom);
-                } else
-                    JOptionPane.showMessageDialog(null,"Obecnie nie ma w hotelu gościa o podanym peselu.");
             }
         });
     }

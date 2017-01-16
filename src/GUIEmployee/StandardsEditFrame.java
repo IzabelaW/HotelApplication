@@ -27,6 +27,12 @@ public class StandardsEditFrame extends JFrame{
     public StandardsEditFrame(Connector connector) throws SQLException {
         this.connector = connector;
 
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(200,100,1200,600);
+        setTitle("HotelApp");
+
         removeStandardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

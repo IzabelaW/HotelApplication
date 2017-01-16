@@ -34,12 +34,15 @@ public class AddStandardDialog extends JDialog {
         this.ID = ID;
 
         if (updateMode){
-            setTitle("Edycja standardu");
             populateGui(tmpStandard);
         }
+        setTitle("HotelApp");
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(addButton);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(525,100,450,220);
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -98,7 +101,7 @@ public class AddStandardDialog extends JDialog {
                         standardsEditFrame.refresh();
                         JOptionPane.showMessageDialog(standardsEditFrame, "Standard został pomyślnie zapisany.", "Standard zapisany", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(standardsEditFrame, "Błąd w trakcie zapisywania standardu: " + ex.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(AddStandardDialog.this, "Błąd w trakcie zapisywania standardu: " + ex.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Wpisz nazwę standardu!");

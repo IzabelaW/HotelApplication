@@ -26,6 +26,11 @@ public class ServicesEditFrame extends JFrame{
 
     public ServicesEditFrame(Connector connector) throws SQLException {
         this.connector = connector;
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(500,100,500,600);
+        setTitle("HotelApp");
 
         removeServiceButton.addActionListener(new ActionListener() {
             @Override

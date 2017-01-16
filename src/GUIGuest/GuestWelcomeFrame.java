@@ -15,12 +15,13 @@ public class GuestWelcomeFrame extends JFrame{
     private JButton searchForRoomsButton;
     private JButton searchForBookingButton;
     private JTextField welcomeField;
-    private String login = "kasia";
+    private String login;
 
 
-    public GuestWelcomeFrame(Connector connector){
+    public GuestWelcomeFrame(Connector connector, String login){
         super("Hotel Application");
         this.connector = connector;
+        this.login = login;
         setContentPane(panel1);
         pack();
         makeMenuPanel();

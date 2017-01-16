@@ -29,13 +29,16 @@ public class AddRoomDialog extends JDialog {
         this.updateMode = updateMode;
 
         if (updateMode) {
-            setTitle("Edycja pokoju");
             populateGui(tmpRoom);
         }
 
+        setTitle("HotelApp");
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(addButton);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(525,100,450,220);
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -55,14 +58,24 @@ public class AddRoomDialog extends JDialog {
 
                 if(!typeOfRoom.equals("") && !numberOfRoom.equals("")) {
                     if (updateMode){
-                        room = tmpRoom;
-                        room.setIfBalcony(ifBalcony);
-                        room.setIfSeaView(ifSeaView);
-                        room.setIfSwimmingPooView(ifSwimmingPoolView);
-                        room.setNumberOfRoom(Integer.parseInt(numberOfRoom));
-                        room.setTypeOfRoom(Integer.parseInt(typeOfRoom));
+                        try {
+                            room = tmpRoom;
+                            room.setIfBalcony(ifBalcony);
+                            room.setIfSeaView(ifSeaView);
+                            room.setIfSwimmingPooView(ifSwimmingPoolView);
+                            room.setNumberOfRoom(Integer.parseInt(numberOfRoom));
+                            room.setTypeOfRoom(Integer.parseInt(typeOfRoom));
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(AddRoomDialog.this, "Niepoprawny format wpisanych danych!");
+                            return;
+                        }
                     } else {
-                        room = new Room(Integer.parseInt(numberOfRoom), Integer.parseInt(typeOfRoom), ifBalcony, ifSwimmingPoolView, ifSeaView);
+                        try {
+                            room = new Room(Integer.parseInt(numberOfRoom), Integer.parseInt(typeOfRoom), ifBalcony, ifSwimmingPoolView, ifSeaView);
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(AddRoomDialog.this,"Niepoprawny format wpisanych danych!", "Niepoprawny format", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
                     }
                     try {
                         if (updateMode){
@@ -77,6 +90,7 @@ public class AddRoomDialog extends JDialog {
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(roomsEditFrame, "Błąd w trakcie zapisywania pokoju: " + ex.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
                     }
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Wypełnij wszystkie pola!");
                 }

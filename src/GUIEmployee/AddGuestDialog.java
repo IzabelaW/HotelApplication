@@ -32,13 +32,16 @@ public class AddGuestDialog extends JDialog {
         this.updateMode = updateMode;
 
         if(updateMode){
-            setTitle("Edycja danych gościa");
             populateGui(tmpGuest);
         }
 
+        setTitle("HotelApp");
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(addButton);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(525,100,450,220);
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -48,17 +51,22 @@ public class AddGuestDialog extends JDialog {
                 String PESEL = PESELTextField.getText();
                 String IDNumber = IDNumberTextField.getText();
 
-                Guest guest;
+                Guest guest = null;
                 if (!login.equals("") && !name.equals("") && !surname.equals("") && !PESEL.equals("") && !IDNumber.equals("")) {
-                    if(updateMode){
-                        guest = tmpGuest;
-                        guest.setLogin(login);
-                        guest.setName(name);
-                        guest.setSurname(surname);
-                        guest.setPESEL(PESEL);
-                        guest.setIDNumber(IDNumber);
-                    } else {
-                        guest = new Guest(login, name, surname, PESEL, IDNumber);
+                    try {
+                        if (updateMode) {
+                            guest = tmpGuest;
+                            guest.setLogin(login);
+                            guest.setName(name);
+                            guest.setSurname(surname);
+                            guest.setPESEL(Long.valueOf(PESEL));
+                            guest.setIDNumber(IDNumber);
+                        } else {
+                            guest = new Guest(login, name, surname, Long.valueOf(PESEL), IDNumber);
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(AddGuestDialog.this, "Niepoprawny format wpisanych danych!", "Błąd", JOptionPane.ERROR_MESSAGE );
+                        return;
                     }
                     try {
                         if (updateMode){
@@ -96,7 +104,7 @@ public class AddGuestDialog extends JDialog {
         loginTextField.setText(tmpGuest.getLogin());
         nameTextField.setText(tmpGuest.getName());
         surnameTextField.setText(tmpGuest.getSurname());
-        PESELTextField.setText(tmpGuest.getPESEL());
+        PESELTextField.setText(tmpGuest.getPESEL().toString());
         IDNumberTextField.setText(tmpGuest.getIDNumber());
         loginTextField.setEditable(false);
 

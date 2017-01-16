@@ -30,6 +30,13 @@ public class RoomsEditFrame extends JFrame{
 
         this.connector = connector;
 
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(500,100,500,600);
+        setTitle("HotelApp");
+
+
         removeRoomButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

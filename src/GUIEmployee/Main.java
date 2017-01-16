@@ -11,10 +11,7 @@ public class Main {
 
     public static void main (String[] args) throws Exception {
         Connector connector = new Connector();
-        JFrame logInFrame = new JFrame("HotelApp");
-        logInFrame.setContentPane(new LogInFrame(connector).panel);
-        logInFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        logInFrame.pack();
+        LogInFrame logInFrame = new LogInFrame(connector);
         logInFrame.setVisible(true);
     }
 }

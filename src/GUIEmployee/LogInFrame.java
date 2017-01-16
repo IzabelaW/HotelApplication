@@ -13,7 +13,6 @@ import java.sql.SQLException;
  */
 public class LogInFrame extends JFrame{
     public JPanel panel;
-    private JFrame frame = this;
     private JTextField loginTextField;
     private JPasswordField passwordField;
     private JButton loginButton;
@@ -25,14 +24,18 @@ public class LogInFrame extends JFrame{
 
     public LogInFrame(Connector connector){
         this.connector = connector;
+
+        setContentPane(panel);
+        pack();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setBounds(600,300,350,180);
+        setTitle("HotelApp");
+
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog registerFrame = new JDialog(frame,"HotelApp");
-                registerFrame.setContentPane(new RegisterFrame(connector).panel);
-                registerFrame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                registerFrame.pack();
-                registerFrame.setVisible(true);
+                RegisterDialog registerDialog = new RegisterDialog(LogInFrame.this, connector);
+                registerDialog.setVisible(true);
             }
         });
         loginButton.addActionListener(new ActionListener() {
@@ -51,17 +54,17 @@ public class LogInFrame extends JFrame{
                     JOptionPane.showMessageDialog(null, "Niepoprawny login lub hasło!");
 
                 } else if (type.equals("gość")) {
-                    GuestWelcomeFrame guestWelcomeFrame = new GuestWelcomeFrame(connector);
+                    GuestWelcomeFrame guestWelcomeFrame = new GuestWelcomeFrame(connector, login);
                 } else if (type.equals("pracownik")){
-                    JFrame employeeFrame = new JFrame("HotelApp");
+                    EmployeeFrame employeeFrame = null;
                     try {
-                        employeeFrame.setContentPane(new EmployeeFrame(connector).panel);
+                        employeeFrame = new EmployeeFrame(connector);
                     } catch (SQLException e1) {
                         e1.printStackTrace();
                     }
-                    employeeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    employeeFrame.pack();
+
                     employeeFrame.setVisible(true);
+                    setVisible(false);
                     dispose();
                 }
             }

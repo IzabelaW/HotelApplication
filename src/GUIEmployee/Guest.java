@@ -8,10 +8,10 @@ public class Guest {
     private String login;
     private String name;
     private String surname;
-    private String PESEL;
+    private Long PESEL;
     private String IDNumber;
 
-    public Guest (String login, String name, String surname, String PESEL, String IDNumber){
+    public Guest (String login, String name, String surname, Long PESEL, String IDNumber){
         this.login = login;
         this.name = name;
         this.surname = surname;
@@ -31,7 +31,7 @@ public class Guest {
         return surname;
     }
 
-    public String getPESEL() {
+    public Long getPESEL() {
         return PESEL;
     }
 
@@ -51,7 +51,7 @@ public class Guest {
         this.surname = surname;
     }
 
-    public void setPESEL(String PESEL) {
+    public void setPESEL(Long PESEL) {
         this.PESEL = PESEL;
     }
 

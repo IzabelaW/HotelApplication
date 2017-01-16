@@ -30,13 +30,16 @@ public class AddServiceDialog extends JDialog {
         this.ID = ID;
 
         if (updateMode) {
-            setTitle("Edycja usługi");
             populateGui(tmpService);
         }
 
+        setTitle("HotelApp");
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(addButton);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(525,100,450,220);
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

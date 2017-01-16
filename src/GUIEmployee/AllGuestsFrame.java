@@ -17,12 +17,19 @@ public class AllGuestsFrame extends JFrame{
     private JLabel headerLabel;
     private JTextField searchTextField;
     private JButton searchButton;
+    private JButton addReservationButton;
     private Connector connector;
     private JScrollPane scrollPane;
     private JTable guestsTable;
 
     public AllGuestsFrame(Connector connector) throws SQLException {
         this.connector = connector;
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(500,100,600,600);
+        setTitle("HotelApp");
+
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -54,6 +61,15 @@ public class AllGuestsFrame extends JFrame{
 
         guestsTable = new JTable();
         scrollPane.setViewportView(guestsTable);
+        addReservationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = guestsTable.getSelectedRow();
+                String login = guestsTable.getValueAt(row,0).toString();
+                GUIGuest.SearchForRoomFrame searchForRoomFrame = new GUIGuest.SearchForRoomFrame(connector);
+                searchForRoomFrame.setLogin(login);
+            }
+        });
     }
 
 }

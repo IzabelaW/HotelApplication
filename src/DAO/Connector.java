@@ -33,16 +33,15 @@ public class Connector {
         System.out.println("DB connection successful to: " + dburl);
     }
 
-    public void addUser(String login, String password, String name, String surname, String PESEL, String IDNumber, String type) throws SQLException {
-        callableStatement = connection.prepareCall("{call dodaj_uzytkownika(?,?,?,?,?,?,?)}");
+    public void addUser(Long login, String password, String name, String surname, String PESEL, String IDNumber) throws SQLException {
+        callableStatement = connection.prepareCall("{call dodaj_uzytkownika(?,?,?,?,?,?)}");
 
-        callableStatement.setString(1, login);
+        callableStatement.setString(1, String.valueOf(login));
         callableStatement.setString(2, password);
         callableStatement.setString(3, name);
         callableStatement.setString(4, surname);
         callableStatement.setString(5, PESEL);
         callableStatement.setString(6, IDNumber);
-        callableStatement.setString(7, type);
 
         callableStatement.execute();
     }
@@ -61,6 +60,15 @@ public class Connector {
         else {
             return resultSet.getString(1);
         }
+    }
+
+    public String countIncome(java.sql.Date beginning, java.sql.Date end) throws SQLException{
+        callableStatement = connection.prepareCall("{call oblicz_dochód_za_okres(?,?,?)}");
+        callableStatement.setString(1, String.valueOf(beginning));
+        callableStatement.setString(2, String.valueOf(end));
+        callableStatement.registerOutParameter(3, Types.INTEGER);
+        callableStatement.execute();
+        return String.valueOf(callableStatement.getInt(3));
     }
 
     public List<Room> searchRooms(int numberOfRoom) throws SQLException {
@@ -274,11 +282,11 @@ public class Connector {
         return list;
     }
 
-    public String getNumberOfRoom(String PESEL) throws SQLException {
+    public String getNumberOfRoom(Long PESEL) throws SQLException {
         String numberOfRoom;
         callableStatement = connection.prepareCall("{call znajdź_pokój_osoby(?,?)}");
 
-        callableStatement.setString(1, PESEL);
+        callableStatement.setString(1, String.valueOf(PESEL));
         callableStatement.registerOutParameter(2, Types.INTEGER);
         callableStatement.execute();
 
@@ -286,14 +294,14 @@ public class Connector {
         return numberOfRoom;
     }
 
-    public String getGuest(String numberOfRoom) throws SQLException {
+    public String getGuest(int numberOfRoom) throws SQLException {
         String guestName = null;
         String guestSurname = null;
         String guestPESEL = null;
 
         callableStatement = connection.prepareCall("{call znajdź_wynajmującego(?)}");
 
-        callableStatement.setString(1, numberOfRoom);
+        callableStatement.setString(1, String.valueOf(numberOfRoom));
         callableStatement.execute();
 
         resultSet = callableStatement.getResultSet();
@@ -334,12 +342,6 @@ public class Connector {
     public void deleteReservation(int ID) throws SQLException {
         callableStatement = connection.prepareCall("{call usun_rezerwacje(?)}");
         callableStatement.setInt(1, ID);
-        callableStatement.execute();
-    }
-
-    public void deleteGuest(String login) throws SQLException {
-        callableStatement = connection.prepareCall("{call usun_goscia(?)}");
-        callableStatement.setString(1, login);
         callableStatement.execute();
     }
 
@@ -392,7 +394,7 @@ public class Connector {
         callableStatement.setString(1, guest.getLogin());
         callableStatement.setString(2, guest.getName());
         callableStatement.setString(3, guest.getSurname());
-        callableStatement.setString(4, guest.getPESEL());
+        callableStatement.setString(4, String.valueOf(guest.getPESEL()));
         callableStatement.setString(5, guest.getIDNumber());
         callableStatement.executeUpdate();
     }
@@ -456,7 +458,7 @@ public class Connector {
         callableStatement.setString(1, guest.getLogin());
         callableStatement.setString(2, guest.getName());
         callableStatement.setString(3, guest.getSurname());
-        callableStatement.setString(4, guest.getPESEL());
+        callableStatement.setString(4, String.valueOf(guest.getPESEL()));
         callableStatement.setString(5, guest.getIDNumber());
         callableStatement.executeUpdate();
     }
@@ -476,7 +478,7 @@ public class Connector {
         String PESEL = resultSet.getString("PESEL");
         String IDNumber = resultSet.getString("nr_dowodu");
 
-        Guest tmpGuest = new Guest(login, name, surname, PESEL, IDNumber);
+        Guest tmpGuest = new Guest(login, name, surname, Long.valueOf(PESEL), IDNumber);
 
         return tmpGuest;
 
@@ -857,7 +859,12 @@ public class Connector {
 
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            if(e.getMessage().startsWith("Rezerwacja nieaktualna!")){
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+            else {
+                e.printStackTrace();
+            }
         }
         finally {
             try {

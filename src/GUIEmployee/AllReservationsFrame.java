@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Izabela on 2017-01-14.
  */
-public class AllReservationsFrame {
+public class AllReservationsFrame extends JFrame{
     public JPanel panel;
     private JLabel headerLabel;
     private JTextField searchTextField;
@@ -23,6 +23,11 @@ public class AllReservationsFrame {
 
     public AllReservationsFrame(Connector connector) throws SQLException {
         this.connector = connector;
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(200,100,1000,600);
+        setTitle("HotelApp");
 
         searchButton.addActionListener(new ActionListener() {
             @Override

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by Izabela on 2017-01-09.
  */
-public class SearchForGuestFrame {
+public class SearchForGuestFrame extends JDialog{
     public JPanel panel;
     private JTextField textField;
     private JButton searchButton;
@@ -20,24 +20,35 @@ public class SearchForGuestFrame {
 
     public SearchForGuestFrame (Connector connector) {
         this.connector = connector;
+        setTitle("HotelApp");
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(580,300,350,150);
+        textArea.setEditable(false);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String guest = null;
-                try {
-                    guest = connector.getGuest(textField.getText());
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+                String guest = "";
+                if (!textField.getText().equals("")) {
+                    try {
+                        guest = connector.getGuest(Integer.parseInt(textField.getText()));
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(SearchForGuestFrame.this, "Niepoprawny format wpisanych danych!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if (!guest.equals("")) {
+                        textArea.setText(guest);
+                    } else
+                        JOptionPane.showMessageDialog(SearchForGuestFrame.this, "Pokój jest wolny.", "Wolny pokój", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                } else {
+                    JOptionPane.showMessageDialog(SearchForGuestFrame.this, "Wpisz numer pokoju!", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
-
-                if (!guest.startsWith("null")) {
-                    textArea.setText(guest);
-                } else
-                    JOptionPane.showMessageDialog(null,"Pokój jest wolny.");
             }
         });
     }
-
-
 }

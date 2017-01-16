@@ -32,13 +32,16 @@ public class AddTypeOfRoomDialog extends JDialog {
         this.ID = ID;
 
         if(updateMode){
-            setTitle("Edycja rodzaju pokoju");
             populateGui(tmpTypeOfRoom);
         }
 
+        setTitle("HotelApp");
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(addButton);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(525,100,450,220);
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -50,15 +53,20 @@ public class AddTypeOfRoomDialog extends JDialog {
                 TypeOfRoom typeOfRoom = null;
 
                 if (!standard.equals("") && !numberOfPeople.equals("") && !numberOfBeds.equals("") && !price.equals("")) {
-                    if(updateMode){
-                        typeOfRoom = tmpTypeOfRoom;
-                        typeOfRoom.setID(ID);
-                        typeOfRoom.setStandard(standard);
-                        typeOfRoom.setNumberOfPeople(Integer.parseInt(numberOfPeople));
-                        typeOfRoom.setNumberOfBeds(Integer.parseInt(numberOfBeds));
-                        typeOfRoom.setPrice(Integer.parseInt(price));
-                    } else {
-                        typeOfRoom = new TypeOfRoom(0, standard, Integer.parseInt(numberOfPeople), Integer.parseInt(numberOfBeds), Integer.parseInt(price));
+                    try {
+                        if (updateMode) {
+                            typeOfRoom = tmpTypeOfRoom;
+                            typeOfRoom.setID(ID);
+                            typeOfRoom.setStandard(standard);
+                            typeOfRoom.setNumberOfPeople(Integer.parseInt(numberOfPeople));
+                            typeOfRoom.setNumberOfBeds(Integer.parseInt(numberOfBeds));
+                            typeOfRoom.setPrice(Integer.parseInt(price));
+                        } else {
+                            typeOfRoom = new TypeOfRoom(0, standard, Integer.parseInt(numberOfPeople), Integer.parseInt(numberOfBeds), Integer.parseInt(price));
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(AddTypeOfRoomDialog.this, "Niepoprawny format wpisanych danych!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                     try {
                         if(updateMode){
@@ -71,7 +79,8 @@ public class AddTypeOfRoomDialog extends JDialog {
                         typesOfRoomsEditFrame.refresh();
                         JOptionPane.showMessageDialog(typesOfRoomsEditFrame, "Rodzaj pokoju został pomyślnie zapisany.", "Rodzaj zapisany", JOptionPane.INFORMATION_MESSAGE);
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(typesOfRoomsEditFrame, "Błąd w trakcie zapisywania rodzaju pokoju: " + ex.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(AddTypeOfRoomDialog.this, "Błąd w trakcie zapisywania rodzaju pokoju: " + ex.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Wypełnij wszystkie pola!");

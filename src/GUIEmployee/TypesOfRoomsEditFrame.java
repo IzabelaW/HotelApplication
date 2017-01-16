@@ -26,18 +26,10 @@ public class TypesOfRoomsEditFrame extends JFrame {
 
     public TypesOfRoomsEditFrame (Connector connector) throws SQLException {
         this.connector = connector;
-
-        List<TypeOfRoom> typesOfRooms = connector.getAllTypesOfRooms();
-
-        TypesOfRoomsTableModel roomTableModel = new TypesOfRoomsTableModel(typesOfRooms);
-
-        scrollPane = new JScrollPane();
-        panel.add(scrollPane, BorderLayout.CENTER);
-
-        typesOfRoomsTable = new JTable();
-        typesOfRoomsTable.setModel(roomTableModel);
-
-        scrollPane.setViewportView(typesOfRoomsTable);
+        setContentPane(panel);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setBounds(500,100,500,600);
 
         removeButton.addActionListener(new ActionListener() {
             @Override
@@ -114,7 +106,7 @@ public class TypesOfRoomsEditFrame extends JFrame {
                 }
 
                 TypesOfRoomsTableModel typesOfRoomsTableModel = new TypesOfRoomsTableModel(typesOfRooms);
-                typesOfRoomsTable.setModel(roomTableModel);
+                typesOfRoomsTable.setModel(typesOfRoomsTableModel);
             }
         });
         scrollPane = new JScrollPane();
